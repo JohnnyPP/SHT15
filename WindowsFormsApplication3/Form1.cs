@@ -124,6 +124,10 @@ namespace WindowsFormsApplication3
                 chart2.ChartAreas["ChartArea1"].AxisY.Minimum = (listdHumidity.Min() - 0.5);
                 chart2.ChartAreas["ChartArea1"].AxisY.Maximum = (listdHumidity.Max() + 0.5);
                 listdHumidity.StandardDeviation();
+
+                //today we take care about oXYPlot
+                //http://oxyplot.codeplex.com/releases/view/76035
+                ///////////////////////////////////////////////////
             }
 
             catch (Exception ex)
