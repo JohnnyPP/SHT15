@@ -4,9 +4,13 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;      //for plotting
 using MathNet.Numerics.Statistics;
+//using OxyPlot.WindowsForms;
+using OxyPlot;
+
 
 namespace WindowsFormsApplication3
 {
+
     public partial class Form1 : Form
     {
         private int i = 0;
@@ -21,6 +25,11 @@ namespace WindowsFormsApplication3
         {
             InitializeComponent();
         }
+
+
+    
+
+
 
         private void Start_Click(object sender, EventArgs e)
         {
@@ -123,11 +132,16 @@ namespace WindowsFormsApplication3
                 chart2.ChartAreas["ChartArea1"].AxisX.Minimum = listdTimespent[0];
                 chart2.ChartAreas["ChartArea1"].AxisY.Minimum = (listdHumidity.Min() - 0.5);
                 chart2.ChartAreas["ChartArea1"].AxisY.Maximum = (listdHumidity.Max() + 0.5);
-                listdHumidity.StandardDeviation();
+                label4.Text = Convert.ToString(listdHumidity.StandardDeviation());
+                label5.Text = Convert.ToString(listdHumidity.Mean());
+                label6.Text = Convert.ToString(listdHumidity.Median());
 
                 //today we take care about oXYPlot
                 //http://oxyplot.codeplex.com/releases/view/76035
                 ///////////////////////////////////////////////////
+
+
+
             }
 
             catch (Exception ex)
