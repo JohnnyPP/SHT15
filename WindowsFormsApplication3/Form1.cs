@@ -16,10 +16,14 @@ namespace WindowsFormsApplication3
         private int i = 0;
         private DateTime dtStarttime;
         private TimeSpan tsTimespent;
+        private double dA=6.1121, dB=17.386, dC=238.88;
 
         private List<double> listdTimespent = new List<double>();
         private List<double> listdTemperature = new List<double>();
         private List<double> listdHumidity = new List<double>();
+        private List<double> listdPsT = new List<double>();
+        private List<double> listdPa = new List<double>();
+        private List<double> listdTemperatureDewPoint = new List<double>();
 
         public Form1()
         {
@@ -65,7 +69,7 @@ namespace WindowsFormsApplication3
 
             //sw.Start();
 
-            double dTemperature, dTemperatureRound, dHumidity;
+            double dTemperature, dTemperatureRound, dHumidity, dDewPointTemperature;
             //What to do with the received line here
             label1.Text = line;
 
@@ -116,7 +120,7 @@ namespace WindowsFormsApplication3
 
                 label2.Text = time.ToString(format);
 
-                i++;
+                
 
                 // DateTime dtStop = DateTime.Now;
                 // DateTime dtDifference;
@@ -141,6 +145,23 @@ namespace WindowsFormsApplication3
                 ///////////////////////////////////////////////////
 
 
+                //////////////////////////////////DEW POINT
+                listdPsT.Add(dA * (Math.Exp((dB * listdTemperature[i]) / (dC + listdTemperature[i]))));
+                listdPa.Add(listdHumidity[i] / 100 * listdPsT[i]);
+                listdTemperatureDewPoint.Add((dC * Math.Log(listdPa[i] / dA, Math.E)) / (dB - Math.Log(listdPa[i] / dA, Math.E)));
+
+                label7.Text = Convert.ToString(listdTemperatureDewPoint[i]);
+
+                dDewPointTemperature = Math.Round(listdTemperatureDewPoint[i], 3);
+
+                chart3.Series[0].BorderWidth = 2;
+                chart3.Series[0].ChartType = SeriesChartType.Line;
+                chart3.Series[0].Points.AddXY(tsTimespent.TotalSeconds, dDewPointTemperature);
+                chart3.ChartAreas["ChartArea1"].AxisX.Minimum = listdTimespent[0];
+                chart3.ChartAreas["ChartArea1"].AxisY.Minimum = (listdTemperatureDewPoint.Min() - 1);
+                chart3.ChartAreas["ChartArea1"].AxisY.Maximum = (listdTemperatureDewPoint.Max() + 1);
+
+                i++;
 
             }
 
